@@ -20,6 +20,9 @@ class UserCreateSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
             raise serializers.ValidationError({"password": "Password fields doesn't match"})
+        
+        if len(attrs['password']) < 8:
+            raise serializers.ValidationError({"password": "Password must be at least 8 characters long."})
         return attrs
     
     def create(self, validated_data):
